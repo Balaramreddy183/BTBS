@@ -1,0 +1,35 @@
+
+<!-- <div class="bg-blue-900 text-white px-6 py-3 rounded-b-[60px]  shadow-md"> -->
+  <div class="bgimg text-white">
+<div class="flex items-center justify-between p-5">
+  <div class="flex items-center space-x-6 pl-3">
+    <img src="../../../../assets/images/supplyone.png" alt="Supply One Logo" class="h-8 w-auto" />
+  </div>
+
+
+ <div class="headerHeading">SAS AUTOMATION</div>
+
+  <div class="flex items-center space-x-4">
+   <div class="relative">
+        <a class="notification"><i class="pi pi-bell mt-2 text-2xl" badgeSize="small" pBadge value="09"></i></a>
+       
+      </div>
+     <div class="flex justify-content-end align-items-center userSection menuStyle">
+        <p-menu #usermenu [model]="userMenuItems" [popup]="true" />
+        <button pButton (click)="usermenu.toggle($event)"> <img src="../../../../assets/images/user_icon.png" alt="user" class="h-5" /> </button>
+      </div>
+  </div>
+</div>
+<div class="menuTxt">
+  <ul class="flex space-x-6 text-sm font-semibold px-6 py-3 mx-6" >
+    <li class="hover:text-gray-300 cursor-pointer"><a (click)="goToPurchaseOrders()" class="border-b-2 border-white pb-1">PURCHASE ORDERS</a></li>
+    <li class="hover:text-gray-300 cursor-pointer"><a href="#" class="hover:border-b-2 border-white pb-1">REPORTS</a></li>
+    <li class="hover:text-gray-300 cursor-pointer"><a href="#" class="hover:border-b-2 border-white pb-1">ROLES & PERMISSIONS</a></li>
+    <li class="hover:text-gray-300 cursor-pointer"><a href="#" class="hover:border-b-2 border-white pb-1">SETTINGS</a></li>
+  </ul>
+   
+  </div>
+</div>
+
+  
+<router-outlet />

@@ -1,0 +1,432 @@
+<div class="px-3">
+    <!-- Heading -->
+    <div class="headingTop mt-2 mb-2">Purchase Orders</div>
+
+    <!-- Filter Bar -->
+    <div class="flex items-center justify-between flex-wrap px-4 py-2">
+
+        <!-- Left: Filters -->
+        <div class="flex items-center flex-wrap gap-2">
+
+            <!-- Search Input -->
+            <div class="relative" style="width: 300px;">
+                <input type="text" pInputText placeholder="Search By PO No., Contact Name, Cust PO, CS Code"
+                    style="padding-left: 30px;" />
+                <span class="absolute left-2 top-1.5 text-gray-400">
+                    <i class="pi pi-search"></i>
+                </span>
+
+            </div>
+
+            <!-- Order Status Dropdown -->
+            <p-select optionLabel="name" placeholder="Select a City" />
+
+            <!-- PO Date -->
+            <p-datepicker [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false" placeholder="PO Date"
+                class="width100" />
+
+
+            <!-- Due Date -->
+            <p-datepicker [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false" placeholder="Due Date"
+                class="width100" />
+
+
+            <!-- Status -->
+            <p-select optionLabel="name" placeholder="Status" />
+
+            <!-- Service Location -->
+            <p-select optionLabel="name" placeholder="Service Location" />
+        </div>
+
+        <!-- Right: Item Count & Refresh -->
+        <div class="flex items-center gap-2 text-sm">
+            <span class="text-gray-600">33 Items</span>
+            <button class="btns btn-secondary" (click)="showDialog()">
+                <i class="pi pi-refresh mr-1"></i> REFRESH
+            </button>
+        </div>
+    </div>
+    <!-- Accordion Card -->
+    <div class="accordionBrd mb-4 overflow-hidden mx-2">
+        <p-accordion value="0">
+            <p-accordion-panel value="0">
+                <p-accordion-header>
+                    <div class="flex items-center justify-between w-full">
+                        <div class="flex flex-wrap gap-12 flex-grow">
+                            <div>
+                                <span class="item">PO No.</span><br />
+                                <span class="value">SAS-2001</span>
+                            </div>
+                            <div>
+                                <span class="item">Cust PO</span><br />
+                                <span class="value">CPO-70251</span>
+                            </div>
+                            <div>
+                                <span class="item">CS Code</span><br />
+                                <span class="value">CPO-70251</span>
+                            </div>
+                            <div>
+                                <span class="item">Approver</span><br />
+                                <span class="value">Username</span>
+                            </div>
+                            <div>
+                                <span class="item">Service Location</span><br />
+                                <span class="value">Dallas Distribution</span>
+                            </div>
+
+                            <div>
+                                <span class="item">PO Date</span><br />
+                                <span class="value">5/20/2025</span>
+                            </div>
+                            <div>
+                                <span class="item">Due Date</span><br />
+                                <span class="value">6/1/2025</span>
+                            </div>
+                            <div class="flex flex-row items-center">
+                                <span class="statscss manuallyProcessed">Manually Processed</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="statscss sentToSL">Sent To SL</span>
+                            <div class="relative flex items-center mr-2">
+                                <!-- <p-menu #usermenu [model]="userMenuItems" [popup]="true" /> -->
+                                <span class="text-lg ml-2"><img
+                                        src="../../../../assets/images/circle_img.png" alt="user" class="h-6"></span>
+                            </div>
+                        </div>
+                    </div>
+                </p-accordion-header>
+
+                <p-accordion-content>
+                    <div class="py-2 px-2 text-sm">
+                        <div class="flex items-start justify-between cursor-pointer">
+                            <div class="value mb-2">Item Details</div>
+                            <div class="flex flex-col items-end justify-start mb-2">
+                                <button class="viewHistory" (click)="showHistoryDialog()">VIEW HISTORY</button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-sm gridtable">
+                                <thead class="border-bottom">
+                                    <tr>
+                                        <th class="py-1">Item No.</th>
+                                        <th class="py-1">Item Desc</th>
+                                        <th class="py-1">UOM</th>
+                                        <th class="py-1 text-right">Order Qty.</th>
+                                        <th class="py-1 text-right">Unit Price/Rate</th>
+                                        <th class="py-1 text-right">Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-1">ITM-7845</td>
+                                        <td class="py-1">Surgical Gloves</td>
+                                        <td class="py-1">Box</td>
+                                        <td class="py-1 text-right">100</td>
+                                        <td class="py-1 text-right">1.25</td>
+                                        <td class="py-1 text-right"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-right value py-1">Total</td>
+                                        <td class="text-right value py-1">${{ totalPrice.toFixed(2) }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </p-accordion-content>
+            </p-accordion-panel>
+
+            <p-accordion-panel value="1">
+                <p-accordion-header>
+                    <div class="flex items-center justify-between w-full">
+                        <div class="flex flex-wrap gap-12 flex-grow">
+                            <div>
+                                <span class="item">PO No.</span><br />
+                                <span class="value">SAS-2001</span>
+                            </div>
+                            <div>
+                                <span class="item">Cust PO</span><br />
+                                <span class="value">CPO-70251</span>
+                            </div>
+                            <div>
+                                <span class="item">CS Code</span><br />
+                                <span class="value">CPO-70251</span>
+                            </div>
+                            <div>
+                                <span class="item">Approver</span><br />
+                                <span class="value">Username</span>
+                            </div>
+                            <div>
+                                <span class="item">Service Location</span><br />
+                                <span class="value">Dallas Distribution</span>
+                            </div>
+
+                            <div>
+                                <span class="item">PO Date</span><br />
+                                <span class="value">5/20/2025</span>
+                            </div>
+                            <div>
+                                <span class="item">Due Date</span><br />
+                                <span class="value">6/1/2025</span>
+                            </div>
+                            <div class="flex flex-row items-center">
+                                <span class="statscss cancelled">Cancelled</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="statscss padding">Pending</span>
+                            <div class="relative flex items-center mr-2">
+                                <span class="text-lg ml-2"><img src="../../../../assets/images/circle_img.png"
+                                        alt="user" class="h-6"></span>
+                            </div>
+                        </div>
+                    </div>
+                </p-accordion-header>
+
+                <p-accordion-content>
+                    <div class="py-2 px-2 text-sm">
+                        <div class="flex items-start justify-between cursor-pointer">
+                            <div class="value mb-2">Item Details</div>
+                            <div class="flex flex-col items-end justify-start mb-2">
+                                <button class="viewHistory" (click)="showHistoryDialog()">VIEW HISTORY</button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-sm gridtable">
+                                <thead class="border-bottom">
+                                    <tr>
+                                        <th class="py-1">Item No.</th>
+                                        <th class="py-1">Item Desc</th>
+                                        <th class="py-1">UOM</th>
+                                        <th class="py-1 text-right">Order Qty.</th>
+                                        <th class="py-1 text-right">Unit Price/Rate</th>
+                                        <th class="py-1 text-right">Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-1">ITM-7845</td>
+                                        <td class="py-1">Surgical Gloves</td>
+                                        <td class="py-1">Box</td>
+                                        <td class="py-1 text-right">100</td>
+                                        <td class="py-1 text-right">1.25</td>
+                                        <td class="py-1 text-right"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-right value py-1">Total</td>
+                                        <td class="text-right value py-1">${{ totalPrice.toFixed(2) }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </p-accordion-content>
+            </p-accordion-panel>
+
+            <p-accordion-panel value="2">
+                <p-accordion-header>
+                    <div class="flex items-center justify-between w-full">
+                        <div class="flex flex-wrap gap-12 flex-grow">
+                            <div>
+                                <span class="item">PO No.</span><br />
+                                <span class="value">SAS-2001</span>
+                            </div>
+                            <div>
+                                <span class="item">Cust PO</span><br />
+                                <span class="value">CPO-70251</span>
+                            </div>
+                            <div>
+                                <span class="item">CS Code</span><br />
+                                <span class="value">CPO-70251</span>
+                            </div>
+                            <div>
+                                <span class="item">Approver</span><br />
+                                <span class="value">Username</span>
+                            </div>
+                            <div>
+                                <span class="item">Service Location</span><br />
+                                <span class="value">Dallas Distribution </span>
+                            </div>
+
+                            <div>
+                                <span class="item">PO Date</span><br />
+                                <span class="value">5/20/2025</span>
+                            </div>
+                            <div>
+                                <span class="item">Due Date</span><br />
+                                <span class="value">6/1/2025</span>
+                            </div>
+                            <div class="flex flex-row items-center">
+                                <span class="statscss invalid">Invalid</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="statscss valid">Valid</span>
+                            <div class="relative flex items-center mr-2">
+                                <span class="text-lg ml-2"><img src="../../../../assets/images/circle_img.png"
+                                        alt="user" class="h-6"></span>
+                            </div>
+                        </div>
+                    </div>
+                </p-accordion-header>
+
+                <p-accordion-content>
+                    <div class="py-2 px-2 text-sm">
+                        <div class="flex items-start justify-between cursor-pointer">
+                            <div class="value mb-2">Item Details</div>
+                            <div class="flex flex-col items-end justify-start mb-2">
+                                <button class="viewHistory" (click)="showHistoryDialog()">VIEW HISTORY</button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-sm gridtable">
+                                <thead class="border-bottom">
+                                    <tr>
+                                        <th class="py-1">Item No.</th>
+                                        <th class="py-1">Item Desc</th>
+                                        <th class="py-1">UOM</th>
+                                        <th class="py-1 text-right">Order Qty.</th>
+                                        <th class="py-1 text-right">Unit Price/Rate</th>
+                                        <th class="py-1 text-right">Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-1">ITM-7845</td>
+                                        <td class="py-1">Surgical Gloves</td>
+                                        <td class="py-1">Box</td>
+                                        <td class="py-1 text-right">100</td>
+                                        <td class="py-1 text-right">1.25</td>
+                                        <td class="py-1 text-right"></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-right value py-1">Total</td>
+                                        <td class="text-right value py-1">${{ totalPrice.toFixed(2) }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </p-accordion-content>
+            </p-accordion-panel>
+        </p-accordion>
+    </div>
+</div>
+
+
+
+
+
+
+
+<p-dialog header="Manual Process" [modal]="true" [(visible)]="visible" [style]="{ width: '880px' }">
+
+    <div class="grid grid-cols-5 gap-5 text-sm text-gray-700 p-4">
+        <div>
+            <span class="item">PO No.</span><br />
+            <span class="value">SAS-2001</span>
+        </div>
+        <div>
+            <span class="item">Cust PO</span><br />
+            <span class="value">CPO-70251</span>
+        </div>
+        <div>
+            <span class="item">CS Code</span><br />
+            <span class="value">CPO-70251</span>
+        </div>
+        <div>
+            <span class="item">Contact Name</span><br />
+            <span class="value">John Michaels</span>
+        </div>
+        <div>
+            <span class="item">Phone No.</span><br />
+            <span class="value">(212) 555-7831</span>
+        </div>
+
+        <div>
+            <span class="item">Total PO Value</span><br />
+            <span class="value">$1735.20</span>
+        </div>
+        <div>
+            <span class="item">PO Date</span><br />
+            <span class="value">5/20/2025</span>
+        </div>
+        <div>
+            <span class="item">Due Date</span><br />
+            <span class="value">6/1/2025</span>
+        </div>
+        <div>
+            <span class="item">Created By</span><br />
+            <span class="value">Jdoe <span class="text-xs text-gray-400">(Logged In User)</span></span>
+        </div>
+        <div>
+            <span class="item">Created On</span><br />
+            <span class="value">5/16/2025</span>
+        </div>
+
+        <div>
+            <span class="item">Approver</span><br />
+            <span class="value">Username</span>
+        </div>
+        <div>
+            <span class="item">Service Location</span><br />
+            <span class="value">Dallas Distribution Hub</span>
+        </div>
+        <div>
+            <span class="item">Notes/Remarks</span><br />
+            <span class="value text-red-600">Rush Order</span>
+        </div>
+    </div>
+
+    <div class="px-4 pb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+            Reason For Manual Processing
+        </label>
+
+        <textarea rows="3" cols="30" pTextarea class="w-full"
+            placeholder="Type your comments here for processing the PO manually"></textarea>
+    </div>
+
+    <div class="flex justify-center gap-2 mb-3">
+        <button class="btns btn-secondary">CANCEL</button>
+        <button class="btns btn-primary">UPDATE</button>
+    </div>
+</p-dialog>
+
+<p-dialog header="View PO History" [modal]="true" [(visible)]="visibleHistory" [style]="{ width: '600px' }">
+
+    <div class="space-y-6 mt-3">
+        <p-timeline [value]="events">
+            <ng-template #opposite let-event>
+                <small class="text-surface-500 dark:text-surface-400">{{ event.date }}</small>
+            </ng-template>
+            <ng-template #content let-event>
+                {{ event.status }}
+            </ng-template>
+
+        </p-timeline>
+
+        <!-- Update Section -->
+        <div class="flex flex-col md:flex-row gap-4 items-start mt-6">
+            <div class="md:w-1/4">
+                <label class="block text-sm font-medium mb-1">Update The Status</label>
+                <p-select optionLabel="name" placeholder="Status" class="w-full " />
+            </div>
+            <div class="w-full md:flex-1">
+                <label class="block text-sm font-medium mb-1">Comments Or Remarks</label>
+                <input type="text" pInputText placeholder="Type your comments here" />
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center gap-2 mb-3 mt-3">
+        <button class="btns btn-secondary">CANCEL</button>
+        <button class="btns btn-primary">UPDATE</button>
+    </div>
+</p-dialog>

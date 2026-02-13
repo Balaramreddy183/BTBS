@@ -1,0 +1,62 @@
+.bgimg {
+  /* width: 100%;
+    height: 120px; */
+  background: url("../../../assets/images/bg_img.png");
+  background-size: cover;
+  background-position: center;
+
+}
+
+.headerHeading {
+  font-family: "Barlow-Medium", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color: #fff;
+}
+
+.menuTxt {
+  font-family: 'Barlow-SemiBold', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+:host::ng-deep .userSection .p-button {
+  background: transparent;
+  border: 0px solid ;
+}
+:host::ng-deep .userSection .p-button:not(:disabled):hover{
+background: transparent;
+  border: 0px solid ;
+}
+:host::ng-deep .p-badge {
+  border-radius:30px;
+  background: #FFD500;
+  color: #011126;
+}
+
+:host::ng-deep .menuStyle .p-menu {
+  background-color: white;
+  min-width: 8.5rem;
+  border: 0px solid;
+}
+
+:host::ng-deep .menuStyle .p-menu-item-label {
+  color: #193B70;
+ font-family: 'Barlow-SemiBold', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+:host::ng-deep .menuStyle .p-menu-item:not(.p-disabled) .p-menu-item-content:hover {
+  background-color: white;
+  color: #193B70;
+  font-family: 'Barlow-Bold', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+:host::ng-deep .menuStyle .pi {
+  color: #193B70;
+  font-size: 16px;
+}

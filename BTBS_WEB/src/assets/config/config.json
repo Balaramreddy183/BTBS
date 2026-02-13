@@ -1,0 +1,7 @@
+{
+    "apiAuthEndPoint": "http://192.168.0.13:3000/",
+    "apiEndPoint": "http://192.168.0.13:3000/",
+    "documentPathPdf": "http://192.168.0.13:3000/",
+    "productVersion": "1.0",
+    "secretKey": "klAuHZCWBnZMkkqaA32Zd"
+}

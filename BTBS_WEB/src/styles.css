@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+@import "./assets/sytles/_common.css";
+
+body 
+    { margin: 0;
+      background-color: #fff;
+    }
+
+    @font-face {
+    font-family: 'Barlow';
+    src: url('./assets/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "Barlow-Medium";
+    font-style: normal;
+    font-weight: normal;
+    src: local('Barlow-Medium'), url('./assets/fonts/BarlowCondensed-Medium.ttf') format("truetype");
+}
+
+@font-face {
+    font-family: 'Barlow-MediumItalic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Barlow-MediumItalic'), url('./assets/fonts/BarlowCondensed-MediumItalic.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Barlow-Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Barlow-Bold'), url('./assets/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Barlow-SemiBold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Barlow-SemiBold'), url('./assets/fonts/BarlowCondensed-SemiBold.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Barlow-Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Barlow-Regular'), url('./assets/fonts/BarlowCondensed-Regular.ttf') format('truetype');
+}
+
+
+
+@font-face {
+    font-family: 'Barlow-LightItalic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Barlow-LightItalic'), url('./assets/fonts/BarlowCondensed-LightItalic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Barlow-BoldItalic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Barlow-BoldItalic'), url('./assets/fonts/BarlowCondensed-BoldItalic.ttf') format('truetype');
+}
