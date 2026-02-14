@@ -1,0 +1,58 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Journey Details Banner - Simplified -->
+    <div class="mb-8 bg-red-600 rounded-lg p-5 shadow text-white">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Route -->
+            <div class="flex items-center gap-3">
+                <lucide-icon [img]="MapPin" class="text-white" [size]="20"></lucide-icon>
+                <div>
+                    <p class="text-xs text-red-100">Route</p>
+                    <p class="text-base font-semibold">{{ journeyDetails.from }} → {{ journeyDetails.to }}</p>
+                </div>
+            </div>
+
+            <!-- Timing -->
+            <div class="flex items-center gap-3">
+                <lucide-icon [img]="Clock" class="text-white" [size]="20"></lucide-icon>
+                <div>
+                    <p class="text-xs text-red-100">Departure - Arrival</p>
+                    <p class="text-base font-semibold">{{ journeyDetails.departureTime }} - {{
+                        journeyDetails.arrivalTime }}</p>
+                </div>
+            </div>
+
+            <!-- Bus Info -->
+            <div class="flex items-center gap-3">
+                <lucide-icon [img]="Info" class="text-white" [size]="20"></lucide-icon>
+                <div>
+                    <p class="text-xs text-red-100">Bus Details</p>
+                    <p class="text-base font-semibold">{{ journeyDetails.busType }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-800 mb-1">Select Your Seats</h1>
+        <p class="text-slate-600">Choose your preferred seats and complete your booking</p>
+    </div>
+
+    <!-- Booking Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Booking Form (Left) -->
+        <div class="lg:col-span-1">
+            <app-booking-form [selectedSeats]="selectedSeats" (formSubmit)="onFormSubmit($event)" />
+        </div>
+
+        <!-- Seat Grid (Right) -->
+        <div class="lg:col-span-2">
+            <app-seat-grid [bookedSeats]="bookedSeats" [selectedSeats]="selectedSeats"
+                (seatSelectionChange)="onSeatSelectionChange($event)" />
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <app-confirmation-modal [(visible)]="showConfirmation" [booking]="confirmedBooking"
+        (bookAnother)="onBookAnother()" />
+</div>

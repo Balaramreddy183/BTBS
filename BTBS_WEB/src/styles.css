@@ -1,67 +1,332 @@
-/* You can add global styles to this file, and also import other style files */
-
+/* Global Styles - BTBS Application */
 
 @import "tailwindcss";
 @import "primeicons/primeicons.css";
-@import "./assets/sytles/_common.css";
 
-body 
-    { margin: 0;
-      background-color: #fff;
+/* ===================================
+   GLOBAL RESETS & BASE STYLES
+   =================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8fafc;
+    /* slate-50 */
+    color: #1e293b;
+    /* slate-800 */
+}
+
+/* ===================================
+   PRIMENG DATEPICKER CUSTOMIZATION
+   =================================== */
+.p-calendar {
+    width: 100%;
+}
+
+.p-calendar .p-inputtext {
+    width: 100%;
+    padding: 0.75rem 1rem !important;
+    border: 2px solid #e2e8f0 !important;
+    /* slate-200 */
+    border-radius: 0.5rem !important;
+    font-size: 0.875rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.p-calendar .p-inputtext:hover {
+    border-color: #cbd5e1 !important;
+    /* slate-300 */
+}
+
+.p-calendar .p-inputtext:focus {
+    border-color: #D84E55 !important;
+    /* RedBus red */
+    box-shadow: 0 0 0 3px rgba(216, 78, 85, 0.1) !important;
+    outline: none !important;
+}
+
+.p-datepicker {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+    padding: 0.5rem !important;
+}
+
+.p-datepicker table td>span {
+    border-radius: 0.5rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.p-datepicker table td>span:hover {
+    background: #eff6ff !important;
+    /* blue-50 */
+    color: #2563eb !important;
+}
+
+.p-datepicker table td>span.p-highlight {
+    background: #D84E55 !important;
+    color: white !important;
+}
+
+/* ===================================
+   PRIMENG INPUT TEXT CUSTOMIZATION
+   =================================== */
+
+.p-inputtext {
+    padding: 0.75rem 1rem !important;
+    border: 2px solid #e2e8f0 !important;
+    /* slate-200 */
+    border-radius: 0.5rem !important;
+    font-size: 0.875rem !important;
+    transition: all 0.2s ease !important;
+    width: 100%;
+}
+
+.p-inputtext:hover {
+    border-color: #cbd5e1 !important;
+    /* slate-300 */
+}
+
+.p-inputtext:focus {
+    border-color: #2563eb !important;
+    /* blue-600 */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+    outline: none !important;
+}
+
+.p-inputtext:disabled {
+    background: #f1f5f9 !important;
+    /* slate-100 */
+    color: #94a3b8 !important;
+    /* slate-400 */
+    cursor: not-allowed !important;
+}
+
+/* ===================================
+   PRIMENG DIALOG CUSTOMIZATION
+   =================================== */
+
+.p-dialog {
+    border-radius: 1rem !important;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+    border: none !important;
+}
+
+.p-dialog .p-dialog-header {
+    padding: 1.5rem !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    border-radius: 1rem 1rem 0 0 !important;
+}
+
+.p-dialog .p-dialog-content {
+    padding: 1.5rem !important;
+}
+
+.p-dialog .p-dialog-footer {
+    padding: 1rem 1.5rem !important;
+    border-top: 1px solid #e2e8f0 !important;
+    border-radius: 0 0 1rem 1rem !important;
+}
+
+/* .p-dialog-mask {
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.4) !important;
+} */
+
+/* ===================================s
+   PRIMENG TABLE CUSTOMIZATION
+   =================================== */
+
+.p-datatable {
+    border-radius: 0.75rem !important;
+    overflow: hidden;
+}
+
+.p-datatable .p-datatable-header {
+    background: #f8fafc !important;
+    /* slate-50 */
+    border: none !important;
+    padding: 1rem 1.5rem !important;
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+    background: #f8fafc !important;
+    /* slate-50 */
+    color: #475569 !important;
+    /* slate-600 */
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    padding: 1rem 1.5rem !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+    border-top: none !important;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.p-datatable .p-datatable-tbody>tr {
+    transition: all 0.2s ease !important;
+}
+
+.p-datatable .p-datatable-tbody>tr>td {
+    padding: 1rem 1.5rem !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    /* slate-100 */
+    font-size: 0.875rem !important;
+    color: #334155 !important;
+    /* slate-700 */
+}
+
+.p-datatable .p-datatable-tbody>tr:hover {
+    background: #f8fafc !important;
+    /* slate-50 */
+}
+
+.p-datatable .p-datatable-tbody>tr:last-child>td {
+    border-bottom: none !important;
+}
+
+/* Alternating row colors */
+.p-datatable .p-datatable-tbody>tr:nth-child(even) {
+    background: #ffffff;
+}
+
+.p-datatable .p-datatable-tbody>tr:nth-child(odd) {
+    background: #fafafa;
+}
+
+/* Paginator */
+.p-paginator {
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 0 0 0.75rem 0.75rem !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+    min-width: 2.5rem !important;
+    height: 2.5rem !important;
+    border-radius: 0.5rem !important;
+    margin: 0 0.25rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page:hover {
+    background: #eff6ff !important;
+    /* blue-50 */
+    color: #2563eb !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #2563eb !important;
+    color: white !important;
+}
+
+/* ===================================
+   CUSTOM UTILITY CLASSES
+   =================================== */
+
+.card-shadow {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.card-shadow-md {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.card-shadow-lg {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* ===================================
+   SCROLLBAR CUSTOMIZATION
+   =================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    /* slate-100 */
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    /* slate-300 */
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+    /* slate-400 */
+}
+
+/* ===================================
+   RESPONSIVE UTILITIES
+   =================================== */
+
+@media (max-width: 768px) {
+    .p-button {
+        padding: 0.625rem 1.25rem !important;
+        font-size: 0.875rem !important;
     }
 
-    @font-face {
-    font-family: 'Barlow';
-    src: url('./assets/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+    .p-datatable .p-datatable-thead>tr>th,
+    .p-datatable .p-datatable-tbody>tr>td {
+        padding: 0.75rem 1rem !important;
+    }
+
+    .p-dialog .p-dialog-header,
+    .p-dialog .p-dialog-content,
+    .p-dialog .p-dialog-footer {
+        padding: 1rem !important;
+    }
 }
 
-@font-face {
-    font-family: "Barlow-Medium";
-    font-style: normal;
-    font-weight: normal;
-    src: local('Barlow-Medium'), url('./assets/fonts/BarlowCondensed-Medium.ttf') format("truetype");
+/* ===================================
+   ANIMATION UTILITIES
+   =================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-@font-face {
-    font-family: 'Barlow-MediumItalic';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Barlow-MediumItalic'), url('./assets/fonts/BarlowCondensed-MediumItalic.ttf') format('truetype');
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
 }
 
-@font-face {
-    font-family: 'Barlow-Bold';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Barlow-Bold'), url('./assets/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-@font-face {
-    font-family: 'Barlow-SemiBold';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Barlow-SemiBold'), url('./assets/fonts/BarlowCondensed-SemiBold.ttf') format('truetype');
-}
-
-
-@font-face {
-    font-family: 'Barlow-Regular';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Barlow-Regular'), url('./assets/fonts/BarlowCondensed-Regular.ttf') format('truetype');
-}
-
-
-
-@font-face {
-    font-family: 'Barlow-LightItalic';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Barlow-LightItalic'), url('./assets/fonts/BarlowCondensed-LightItalic.ttf') format('truetype');
-}
-@font-face {
-    font-family: 'Barlow-BoldItalic';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Barlow-BoldItalic'), url('./assets/fonts/BarlowCondensed-BoldItalic.ttf') format('truetype');
+.slide-in {
+    animation: slideIn 0.3s ease-out;
 }

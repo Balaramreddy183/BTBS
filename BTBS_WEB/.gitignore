@@ -35,9 +35,17 @@ yarn-error.log
 /coverage
 /libpeerconnection.log
 testem.log
-/package-lock.json
+
 
 
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log

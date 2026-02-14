@@ -1,0 +1,56 @@
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="true" [style]="{ width: '500px' }" [draggable]="false"
+    [resizable]="false" (onHide)="onHide()" styleClass="confirmation-dialog">
+    <ng-template pTemplate="header">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                <lucide-icon [img]="CheckCircle" class="text-emerald-600" [size]="24"></lucide-icon>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800">Booking Confirmed!</h3>
+        </div>
+    </ng-template>
+
+    <div class="py-4" *ngIf="booking">
+        <p class="text-slate-600 mb-6 text-center">
+            Your booking has been successfully confirmed
+        </p>
+
+        <div class="bg-slate-50 rounded-lg p-4 space-y-3 border border-slate-200">
+            <!-- Booking ID -->
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">Booking ID:</span>
+                <span class="font-mono font-semibold text-slate-900 text-sm">{{ booking.id }}</span>
+            </div>
+
+            <!-- Travel Date -->
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">Travel Date:</span>
+                <span class="font-semibold text-slate-900 text-sm">{{ booking.travelDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+
+            <!-- Mobile -->
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">Mobile:</span>
+                <span class="font-semibold text-slate-900 text-sm">+91 {{ booking.mobileNumber }}</span>
+            </div>
+
+            <!-- Seats -->
+            <div class="border-t border-slate-200 pt-3">
+                <span class="text-sm text-slate-600 block mb-2">Selected Seats:</span>
+                <div class="flex flex-wrap gap-2">
+                    <span *ngFor="let seat of booking.seats"
+                        class="px-3 py-1 bg-red-600 text-white rounded-full text-sm font-medium shadow-sm">
+                        {{ seat }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="flex gap-3">
+            <p-button label="Book Another" icon="pi pi-plus" (onClick)="onBookAnother()" styleClass="flex-1"
+                [outlined]="true" />
+            <p-button label="Close" icon="pi pi-times" (onClick)="onHide()" styleClass="flex-1" />
+        </div>
+    </ng-template>
+</p-dialog>

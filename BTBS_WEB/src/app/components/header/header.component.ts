@@ -1,0 +1,13 @@
+import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LucideAngularModule, Bus } from 'lucide-angular';
+
+@Component({
+  selector: 'app-header',
+  imports: [RouterLink, RouterLinkActive, LucideAngularModule],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.css'
+})
+export class HeaderComponent {
+  readonly Bus = Bus;
+}

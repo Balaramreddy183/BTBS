@@ -1,0 +1,37 @@
+<div class="max-w-7xl mx-auto px-4 py-6">
+    <!-- Page Header -->
+    <div class="mb-6">
+        <h1 class="text-2xl font-semibold text-slate-800">Boarding Management</h1>
+    </div>
+
+    <!-- Filter and Stats Row -->
+    <div class="bg-white rounded p-4 shadow-sm border border-slate-200 mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <!-- Date Filter -->
+            <div class="flex items-center gap-3">
+                <label class="text-sm font-medium text-slate-700">Travel Date:</label>
+                <p-datepicker [(ngModel)]="selectedDate" (ngModelChange)="onDateChange($event)" [showIcon]="true"
+                    dateFormat="dd/mm/yy" placeholder="Select date" [showButtonBar]="true" />
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="flex items-center gap-6 text-sm">
+                <div>
+                    <span class="text-slate-600">Total:</span>
+                    <span class="font-semibold text-slate-800 ml-1">{{ totalBookings }}</span>
+                </div>
+                <div>
+                    <span class="text-slate-600">Boarded:</span>
+                    <span class="font-semibold text-emerald-600 ml-1">{{ boardedCount }}</span>
+                </div>
+                <div>
+                    <span class="text-slate-600">Pending:</span>
+                    <span class="font-semibold text-amber-600 ml-1">{{ pendingCount }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boarding Table -->
+    <app-boarding-table [bookings]="filteredBookings" (boardingStatusChange)="onBoardingStatusChange($event)" />
+</div>
