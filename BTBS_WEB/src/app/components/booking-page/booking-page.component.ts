@@ -38,11 +38,13 @@ export class BookingPageComponent implements OnInit {
   constructor(private bookingFacade: BookingFacadeService) { }
 
   ngOnInit(): void {
-    this.loadBookedSeats();
+    // Initial load will be empty until date is selected or default to today if needed
+    // But for now keeping it empty to rely on user selection or explicit today
+    this.loadBookedSeats(new Date());
   }
 
-  loadBookedSeats(): void {
-    this.bookingFacade.getAllBookings().subscribe({
+  loadBookedSeats(date: Date): void {
+    this.bookingFacade.getBookingsByDate(date).subscribe({
       next: (bookings) => {
         this.bookedSeats = bookings.flatMap(b => b.seats);
       },
@@ -52,6 +54,11 @@ export class BookingPageComponent implements OnInit {
 
   onSeatSelectionChange(seats: string[]): void {
     this.selectedSeats = seats;
+  }
+
+  onDateSelect(date: Date): void {
+    this.selectedSeats = []; // Clear selection when date changes
+    this.loadBookedSeats(date);
   }
 
   onFormSubmit(formData: { travelDate: Date; mobileNumber: string }): void {
@@ -72,7 +79,9 @@ export class BookingPageComponent implements OnInit {
         this.loading = false;
         this.confirmedBooking = booking;
         this.showConfirmation = true;
-        this.loadBookedSeats();
+        this.confirmedBooking = booking;
+        this.showConfirmation = true;
+        this.loadBookedSeats(formData.travelDate);
         this.selectedSeats = [];
       },
       error: () => {

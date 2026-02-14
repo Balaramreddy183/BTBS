@@ -18,6 +18,30 @@ export class BookingFacadeService {
     return this.bookingService.getAllBookings();
   }
 
+  getBookingsByDate(date: Date): Observable<Booking[]> {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    return new Observable<Booking[]>(observer => {
+      this.bookingService.getAllBookings().subscribe({
+        next: (bookings) => {
+          const filteredBookings = bookings.filter(booking => {
+            const bookingDate = new Date(booking.travelDate);
+            return bookingDate >= startOfDay && bookingDate <= endOfDay;
+          });
+          observer.next(filteredBookings);
+          observer.complete();
+        },
+        error: (err) => {
+          observer.error(err);
+        }
+      });
+    });
+  }
+
   getBookingById(id: string): Observable<Booking> {
     return this.bookingService.getBookingById(id);
   }

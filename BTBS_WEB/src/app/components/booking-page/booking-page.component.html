@@ -42,7 +42,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Booking Form (Left) -->
         <div class="lg:col-span-1">
-            <app-booking-form [selectedSeats]="selectedSeats" (formSubmit)="onFormSubmit($event)" />
+            <app-booking-form [selectedSeats]="selectedSeats" (formSubmit)="onFormSubmit($event)"
+                (dateSelect)="onDateSelect($event)" />
         </div>
 
         <!-- Seat Grid (Right) -->

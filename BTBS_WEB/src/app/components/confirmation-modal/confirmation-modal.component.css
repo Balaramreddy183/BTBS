@@ -17,7 +17,7 @@
     border-color: #B02E35 !important;
 }
 
-/* Specific styling for outlined type buttons if needed, enforcing RedBus theme */
+/* Specific styling for outlined type buttons */
 :host ::ng-deep .btbs-custom-modal-btn.p-button-outlined {
     background: transparent !important;
     border-color: #D84E55 !important;
@@ -30,9 +30,53 @@
     color: #C43E45 !important;
 }
 
-:host ::ng-deep .btbs-custom-modal-btn:disabled {
-    background: #cbd5e1 !important;
-    border-color: #cbd5e1 !important;
-    color: #64748b !important;
-    opacity: 0.6 !important;
+/* Ticket Styles */
+.ticket-container {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.ticket-header {
+    background: #f8fafc;
+    padding: 1rem 1.5rem;
+    border-bottom: 2px dashed #cbd5e1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticket-body {
+    padding: 1.5rem;
+}
+
+.ticket-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.ticket-row:last-child {
+    margin-bottom: 0;
+}
+
+.ticket-label {
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.ticket-value {
+    color: #0f172a;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.ticket-price {
+    font-size: 1.25rem;
+    color: #D84E55;
+    font-weight: 700;
 }

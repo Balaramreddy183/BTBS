@@ -15,6 +15,7 @@ import { LucideAngularModule, Calendar, Phone } from 'lucide-angular';
 export class BookingFormComponent implements OnInit {
   @Input() selectedSeats: string[] = [];
   @Output() formSubmit = new EventEmitter<{ travelDate: Date; mobileNumber: string }>();
+  @Output() dateSelect = new EventEmitter<Date>();
 
   bookingForm!: FormGroup;
   today: Date = new Date();
@@ -29,11 +30,17 @@ export class BookingFormComponent implements OnInit {
 
   initializeForm(): void {
     this.bookingForm = this.fb.group({
-      travelDate: [null, Validators.required],
+      travelDate: [this.today, Validators.required],
       mobileNumber: ['', [
         Validators.required,
         Validators.pattern('^[6-9][0-9]{9}$')
       ]]
+    });
+
+    this.bookingForm.get('travelDate')?.valueChanges.subscribe(date => {
+      if (date) {
+        this.dateSelect.emit(date);
+      }
     });
   }
 
