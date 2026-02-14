@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Booking model - matches frontend Booking interface
 const bookingSchema = new mongoose.Schema({
     id: {
         type: String,

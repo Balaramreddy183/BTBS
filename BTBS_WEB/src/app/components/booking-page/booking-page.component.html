@@ -7,7 +7,7 @@
                 <lucide-icon [img]="MapPin" class="text-white" [size]="20"></lucide-icon>
                 <div>
                     <p class="text-xs text-red-100">Route</p>
-                    <p class="text-base font-semibold">{{ journeyDetails.from }} → {{ journeyDetails.to }}</p>
+                    <p class="text-base font-semibold">{{ journey.from }} → {{ journey.to }}</p>
                 </div>
             </div>
 
@@ -16,8 +16,8 @@
                 <lucide-icon [img]="Clock" class="text-white" [size]="20"></lucide-icon>
                 <div>
                     <p class="text-xs text-red-100">Departure - Arrival</p>
-                    <p class="text-base font-semibold">{{ journeyDetails.departureTime }} - {{
-                        journeyDetails.arrivalTime }}</p>
+                    <p class="text-base font-semibold">{{ journey.departureTime }} - {{
+                        journey.arrivalTime }}</p>
                 </div>
             </div>
 
@@ -26,7 +26,7 @@
                 <lucide-icon [img]="Info" class="text-white" [size]="20"></lucide-icon>
                 <div>
                     <p class="text-xs text-red-100">Bus Details</p>
-                    <p class="text-base font-semibold">{{ journeyDetails.busType }}</p>
+                    <p class="text-base font-semibold">{{ journey.busType }}</p>
                 </div>
             </div>
         </div>

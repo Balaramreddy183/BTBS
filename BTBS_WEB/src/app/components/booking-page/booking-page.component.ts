@@ -16,16 +16,16 @@ import { BookingFacadeService } from '../../core/services/booking-facade.service
 export class BookingPageComponent implements OnInit {
   selectedSeats: string[] = [];
   bookedSeats: string[] = [];
-  showConfirmation: boolean = false;
+  showConfirmation = false;
   confirmedBooking: Booking | null = null;
-  loading: boolean = false;
+  loading = false;
 
   readonly MapPin = MapPin;
   readonly Clock = Clock;
   readonly Info = Info;
 
-  // Journey details (mock data - would come from API)
-  journeyDetails: JourneyDetails = {
+  // Mock Journey details
+  journey: JourneyDetails = {
     from: 'Hyderabad',
     to: 'Bangalore',
     departureTime: '10:30 PM',
@@ -42,9 +42,11 @@ export class BookingPageComponent implements OnInit {
   }
 
   loadBookedSeats(): void {
-    this.bookingFacade.getAllBookings().subscribe(bookings => {
-      // Extract all booked seats from all bookings
-      this.bookedSeats = bookings.flatMap(booking => booking.seats);
+    this.bookingFacade.getAllBookings().subscribe({
+      next: (bookings) => {
+        this.bookedSeats = bookings.flatMap(b => b.seats);
+      },
+      error: () => this.bookedSeats = []
     });
   }
 
@@ -54,28 +56,28 @@ export class BookingPageComponent implements OnInit {
 
   onFormSubmit(formData: { travelDate: Date; mobileNumber: string }): void {
     this.loading = true;
-    const bookingId = `BTBS-${Date.now()}`; // Simple ID generation
+    const bookingId = `BTBS-${Date.now()}`;
 
     const newBooking: Booking = {
       id: bookingId,
-      travelDate: formData.travelDate,
-      mobileNumber: formData.mobileNumber,
+      ...formData,
       seats: [...this.selectedSeats],
       boarded: false,
       createdAt: new Date(),
       totalAmount: this.calculateTotalPrice()
     };
 
-    this.bookingFacade.createBooking(newBooking).subscribe(booking => {
-      this.loading = false;
-      if (booking) {
+    this.bookingFacade.createBooking(newBooking).subscribe({
+      next: (booking) => {
+        this.loading = false;
         this.confirmedBooking = booking;
         this.showConfirmation = true;
-        this.loadBookedSeats(); // Refresh booked seats
-        this.selectedSeats = []; // Clear selection
-      } else {
-        // Handle error (facade logs it)
-        alert('Failed to create booking. Please try again.');
+        this.loadBookedSeats();
+        this.selectedSeats = [];
+      },
+      error: () => {
+        this.loading = false;
+        alert('Booking failed. Please try again.');
       }
     });
   }
@@ -87,13 +89,12 @@ export class BookingPageComponent implements OnInit {
   }
 
   private calculateTotalPrice(): number {
-    const baseSeatPrice = 500;
-    const windowSeatSurcharge = 50;
+    const BASE_PRICE = 500;
+    const WINDOW_SURCHARGE = 50;
 
-    return this.selectedSeats.reduce((total, seatId) => {
-      const column = seatId.charAt(0);
-      const isWindowSeat = column === 'A' || column === 'D';
-      return total + baseSeatPrice + (isWindowSeat ? windowSeatSurcharge : 0);
+    return this.selectedSeats.reduce((total, seat) => {
+      const isWindow = seat.startsWith('A') || seat.startsWith('D');
+      return total + BASE_PRICE + (isWindow ? WINDOW_SURCHARGE : 0);
     }, 0);
   }
 }

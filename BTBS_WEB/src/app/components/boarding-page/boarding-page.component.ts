@@ -14,16 +14,16 @@ import { BoardingFacadeService } from '../../core/services/boarding-facade.servi
   styleUrl: './boarding-page.component.css'
 })
 export class BoardingPageComponent implements OnInit {
-  selectedDate: Date | null = new Date();
-  allBookings: Booking[] = [];
-  loading: boolean = false;
+  selectedDate: Date = new Date();
+  bookings: Booking[] = [];
+  loading = false;
 
   readonly Users = Users;
   readonly CheckCircle = CheckCircle;
   readonly Clock = Clock;
   readonly Calendar = Calendar;
 
-  constructor(private boardingFacade: BoardingFacadeService) { }
+  constructor(private facade: BoardingFacadeService) { }
 
   ngOnInit(): void {
     this.loadBookings();
@@ -33,47 +33,45 @@ export class BoardingPageComponent implements OnInit {
     if (!this.selectedDate) return;
 
     this.loading = true;
-    this.boardingFacade.getBoardingBookings(this.selectedDate).subscribe(bookings => {
-      this.allBookings = bookings;
-      this.loading = false;
+    this.facade.getBoardingBookings(this.selectedDate).subscribe({
+      next: (data) => {
+        this.bookings = data || [];
+        this.loading = false;
+      },
+      error: () => {
+        this.bookings = [];
+        this.loading = false;
+      }
     });
   }
-
-  // Watch for date changes (called by ngModelChange if added or just implied by binding)
-  // Since we use [(ngModel)], we need to listen for changes. 
-  // Getting date changes via ngModel requires (ngModelChange)="onDateChange($event)" in template
-  // or a setter. Let's assume the template has (ngModelChange) or we add it.
 
   onDateChange(date: Date): void {
     this.selectedDate = date;
     this.loadBookings();
   }
 
-  get filteredBookings(): Booking[] {
-    return this.allBookings; // API already filters by date
-  }
+  onBoardingStatusChange({ bookingId, boarded }: { bookingId: string; boarded: boolean }): void {
+    this.facade.updateBoardingStatus(bookingId, boarded).subscribe({
+      next: (updated) => {
+        if (!updated) return;
 
-  get totalBookings(): number {
-    return this.allBookings.length;
-  }
-
-  get boardedCount(): number {
-    return this.allBookings.filter(b => b.boarded).length;
-  }
-
-  get pendingCount(): number {
-    return this.allBookings.filter(b => !b.boarded).length;
-  }
-
-  onBoardingStatusChange(event: { bookingId: string; boarded: boolean }): void {
-    this.boardingFacade.updateBoardingStatus(event.bookingId, event.boarded).subscribe(updatedBooking => {
-      if (updatedBooking) {
-        // Update local state
-        const index = this.allBookings.findIndex(b => b.id === updatedBooking.id);
-        if (index !== -1) {
-          this.allBookings[index] = updatedBooking;
+        const index = this.bookings.findIndex(b => b.id === updated.id);
+        if (index > -1) {
+          this.bookings[index] = updated;
         }
       }
     });
+  }
+
+  get totalCount(): number {
+    return this.bookings.length;
+  }
+
+  get boardedCount(): number {
+    return this.bookings.filter(b => b.boarded).length;
+  }
+
+  get pendingCount(): number {
+    return this.bookings.filter(b => !b.boarded).length;
   }
 }

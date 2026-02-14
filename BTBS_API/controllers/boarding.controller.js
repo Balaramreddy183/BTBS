@@ -13,9 +13,6 @@ async function getBoardingSequence(req, res) {
         }
 
         // Simple date format validation (YYYY-MM-DD)
-        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-        // Or just let Date.parse handle it, but regex is safer for strict format
-        // User didn't specify strict regex validation, but "Invalid travelDate -> 400"
         if (isNaN(Date.parse(travelDate))) {
             return res.status(400).json({ message: 'Invalid travelDate format. Expected YYYY-MM-DD.' });
         }
@@ -28,7 +25,6 @@ async function getBoardingSequence(req, res) {
 
     } catch (error) {
         // 4. Handle Errors
-        // In production, logged via a logger, here we just return 500
         res.status(500).json({
             message: 'Internal Server Error processing boarding sequence',
             error: error.message

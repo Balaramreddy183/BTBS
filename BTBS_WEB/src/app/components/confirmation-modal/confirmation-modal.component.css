@@ -1,25 +1,36 @@
 /* Confirmation Modal Button Styling */
-::ng-deep .p-button {
+:host ::ng-deep .btbs-custom-modal-btn {
     background: #D84E55 !important;
     border-color: #D84E55 !important;
     color: white !important;
-    font-weight: 600 !important;
-    padding: 0.75rem 1.5rem !important;
-    border-radius: 0.5rem !important;
     transition: all 0.2s ease !important;
 }
 
-::ng-deep .p-button:hover:not(:disabled) {
+:host ::ng-deep .btbs-custom-modal-btn:hover:not(:disabled) {
     background: #C43E45 !important;
     border-color: #C43E45 !important;
+    color: white !important;
 }
 
-::ng-deep .p-button:active:not(:disabled) {
+:host ::ng-deep .btbs-custom-modal-btn:active:not(:disabled) {
     background: #B02E35 !important;
     border-color: #B02E35 !important;
 }
 
-::ng-deep .p-button:disabled {
+/* Specific styling for outlined type buttons if needed, enforcing RedBus theme */
+:host ::ng-deep .btbs-custom-modal-btn.p-button-outlined {
+    background: transparent !important;
+    border-color: #D84E55 !important;
+    color: #D84E55 !important;
+}
+
+:host ::ng-deep .btbs-custom-modal-btn.p-button-outlined:hover:not(:disabled) {
+    background: rgba(216, 78, 85, 0.04) !important;
+    border-color: #C43E45 !important;
+    color: #C43E45 !important;
+}
+
+:host ::ng-deep .btbs-custom-modal-btn:disabled {
     background: #cbd5e1 !important;
     border-color: #cbd5e1 !important;
     color: #64748b !important;

@@ -225,6 +225,21 @@ body {
     color: #2563eb !important;
 }
 
+/* ===================================
+   PRIMENG BUTTON CUSTOMIZATION
+   =================================== */
+
+.p-button {
+    font-weight: 600 !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.p-button:focus {
+    box-shadow: 0 0 0 3px rgba(216, 78, 85, 0.1) !important;
+}
+
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
     background: #2563eb !important;
     color: white !important;

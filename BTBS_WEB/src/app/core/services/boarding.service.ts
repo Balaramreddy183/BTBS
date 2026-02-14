@@ -8,20 +8,18 @@ import { Booking } from '../../models';
   providedIn: 'root'
 })
 export class BoardingService {
-  private baseUrl = `${environment.apiUrl}/bookings`;
+  private apiUrl = `${environment.apiUrl}/bookings`; // Using bookings endpoint for now
 
   constructor(private http: HttpClient) { }
 
-  // Get bookings for boarding by date
   getBoardingBookings(date: Date): Observable<Booking[]> {
-    const dateString = date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    const params = new HttpParams().set('date', dateString);
+    const dateStr = date.toISOString().split('T')[0];
+    const params = new HttpParams().set('date', dateStr);
 
-    return this.http.get<Booking[]>(`${this.baseUrl}/getBoardingBookings`, { params });
+    return this.http.get<Booking[]>(`${this.apiUrl}/getBoardingBookings`, { params });
   }
 
-  // Update boarding status
   updateBoardingStatus(id: string, boarded: boolean): Observable<Booking> {
-    return this.http.patch<Booking>(`${this.baseUrl}/updateBoardingStatus/${id}`, { boarded });
+    return this.http.patch<Booking>(`${this.apiUrl}/updateBoardingStatus/${id}`, { boarded });
   }
 }

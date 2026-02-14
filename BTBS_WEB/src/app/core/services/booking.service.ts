@@ -8,32 +8,27 @@ import { Booking } from '../../models';
   providedIn: 'root'
 })
 export class BookingService {
-  private baseUrl = `${environment.apiUrl}/bookings`;
+  private apiUrl = `${environment.apiUrl}/bookings`;
 
   constructor(private http: HttpClient) { }
 
-  // Get all bookings
   getAllBookings(): Observable<Booking[]> {
-    return this.http.get<Booking[]>(`${this.baseUrl}/getAllBookings`);
+    return this.http.get<Booking[]>(`${this.apiUrl}/getAllBookings`);
   }
 
-  // Get booking by ID
   getBookingById(id: string): Observable<Booking> {
-    return this.http.get<Booking>(`${this.baseUrl}/getBookingById/${id}`);
+    return this.http.get<Booking>(`${this.apiUrl}/getBookingById/${id}`);
   }
 
-  // Create new booking
   createBooking(booking: Booking): Observable<Booking> {
-    return this.http.post<Booking>(`${this.baseUrl}/createBooking`, booking);
+    return this.http.post<Booking>(`${this.apiUrl}/createBooking`, booking);
   }
 
-  // Update booking
   updateBooking(id: string, booking: Partial<Booking>): Observable<Booking> {
-    return this.http.put<Booking>(`${this.baseUrl}/updateBooking/${id}`, booking);
+    return this.http.put<Booking>(`${this.apiUrl}/updateBooking/${id}`, booking);
   }
 
-  // Delete booking
   deleteBooking(id: string): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.baseUrl}/deleteBooking/${id}`);
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/deleteBooking/${id}`);
   }
 }
