@@ -60,24 +60,28 @@
                 <tr [class.row-boarded]="row.boarded" class="border-b border-slate-100 transition-colors duration-200">
                     <!-- Sequence -->
                     <td class="text-center font-semibold text-slate-600">
+                        <span class="md:hidden font-medium text-slate-500 mr-2">Seq:</span>
                         {{ row.sequence }}
                     </td>
 
                     <!-- Booking ID -->
                     <td class="font-mono text-slate-600 text-sm">
+                        <span class="md:hidden font-medium text-slate-500 mr-2">Booking ID:</span>
                         <span class="md:hidden">..{{ row.id | slice:-4 }}</span>
                         <span class="hidden md:inline">{{ row.id }}</span>
                     </td>
 
                     <!-- Seats -->
                     <td class="font-bold text-slate-800 text-sm">
+                        <span class="md:hidden font-medium text-slate-500 mr-2">Seats:</span>
                         {{ formatSeats(row.seats) }}
                     </td>
 
                     <!-- Mobile -->
                     <td>
+                        <span class="md:hidden font-medium text-slate-500 mr-2">Mobile:</span>
                         <a [href]="'tel:' + row.mobileNumber"
-                            class="flex items-center gap-2 text-slate-600 hover:text-red-600 text-sm font-medium whitespace-nowrap">
+                            class="flex items-center gap-2 text-slate-600 hover:text-red-600 text-sm font-medium whitespace-nowrap inline-flex">
                             <i class="pi pi-phone text-xs text-red-500"></i>
                             {{ row.mobileNumber }}
                         </a>

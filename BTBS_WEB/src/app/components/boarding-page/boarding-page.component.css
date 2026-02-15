@@ -49,3 +49,60 @@
     background-color: #dcfce7 !important;
     /* Tailwind green-100 */
 }
+
+/* Mobile Responsive Card View */
+@media screen and (max-width: 768px) {
+
+    /* Hide Table Header */
+    :host ::ng-deep .p-datatable-thead {
+        display: none !important;
+    }
+
+    /* Make Rows look like Cards */
+    :host ::ng-deep .p-datatable-tbody>tr {
+        display: block !important;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 0;
+        margin-top: 0.5rem;
+    }
+
+    /* Keep green background for boarded rows in card view */
+    :host ::ng-deep .p-datatable-tbody>tr.row-boarded {
+        background-color: #f0fdf4 !important;
+        border-color: #bbf7d0 !important;
+    }
+
+    /* Make Cells look like Flex Rows */
+    :host ::ng-deep .p-datatable-tbody>tr>td {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        border: none !important;
+        padding: 0.5rem 1rem !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        text-align: right;
+    }
+
+    /* Align text specifically for the value part */
+    :host ::ng-deep .p-datatable-tbody>tr>td>*:last-child {
+        text-align: right;
+    }
+
+    /* Action Column - Full Width Button */
+    :host ::ng-deep .p-datatable-tbody>tr>td:last-child {
+        padding: 0.75rem 1rem !important;
+        border-top: 1px dashed #e2e8f0 !important;
+        margin-top: 0.25rem;
+        display: block !important;
+    }
+
+    /* Fix height of buttons in card view */
+    .boarding-btn-native {
+        height: 2.5rem !important;
+        font-size: 0.875rem !important;
+    }
+}
