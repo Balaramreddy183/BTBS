@@ -1,0 +1,51 @@
+/* Ensure button is clickable above any row overlays */
+.boarding-action-btn {
+    position: relative;
+    z-index: 100 !important;
+    pointer-events: auto;
+}
+
+:host ::ng-deep .boarding-action-btn .p-button {
+    width: 100%;
+}
+
+/* Native button override to bypass component event issues */
+.boarding-btn-native {
+    position: relative;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+
+/* STABILITY PATCH: Fix column widths and disable row animations to prevent shaking */
+:host ::ng-deep .p-datatable-table {
+    table-layout: fixed !important;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr {
+    transition: none !important;
+    position: relative;
+    z-index: 1;
+    transform: translateZ(0);
+}
+
+:host ::ng-deep .p-datatable-tbody>tr>td.relative {
+    z-index: 50;
+}
+
+/* Compact padding for mobile-friendly view, overriding global styles */
+:host ::ng-deep .p-datatable-tbody>tr>td {
+    padding: 0.5rem 0.75rem !important;
+    vertical-align: middle;
+}
+
+/* Force green background for boarded rows using custom class */
+:host ::ng-deep .p-datatable-tbody>tr.row-boarded {
+    background-color: #f0fdf4 !important;
+    /* Extremely light green (Tailwind green-50) */
+}
+
+:host ::ng-deep .p-datatable-tbody>tr.row-boarded:hover {
+    background-color: #dcfce7 !important;
+    /* Tailwind green-100 */
+}

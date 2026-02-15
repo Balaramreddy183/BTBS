@@ -1,30 +1,33 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { Observable, tap, catchError, throwError } from 'rxjs';
 
-// Simple error interceptor - shows user-friendly messages
-export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+    const messageService = inject(MessageService);
+
     return next(req).pipe(
-        catchError((error) => {
-            let errorMessage = 'An error occurred';
-
-            if (error.error?.message) {
-                // Backend error message
-                errorMessage = error.error.message;
-            } else if (error.status === 0) {
-                // Network error
-                errorMessage = 'Unable to connect to server. Please check your connection.';
-            } else if (error.status === 404) {
-                errorMessage = 'Resource not found';
-            } else if (error.status === 500) {
-                errorMessage = 'Server error. Please try again later.';
+        catchError((error: HttpErrorResponse) => {
+            let errorMessage = 'An unknown error occurred';
+            if (error.error instanceof ErrorEvent) {
+                // Client-side error
+                errorMessage = `Error: ${error.error.message}`;
+            } else {
+                // Server-side error
+                errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+                if (error.error && error.error.message) {
+                    errorMessage = error.error.message;
+                }
             }
 
-            console.error('HTTP Error:', errorMessage, error);
+            messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: errorMessage,
+                life: 5000
+            });
 
-            // You can show a toast notification here if needed
-            // For now, just log and re-throw
-            return throwError(() => new Error(errorMessage));
+            return throwError(() => error);
         })
     );
-};
+}

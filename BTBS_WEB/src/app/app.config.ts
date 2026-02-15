@@ -7,6 +7,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,5 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([errorInterceptor, loadingInterceptor])
     ),
+    MessageService,
+    ConfirmationService
   ],
 };

@@ -1,3 +1,4 @@
+<p-confirmDialog [style]="{width: '450px'}" [appendTo]="'body'" [blockScroll]="false"></p-confirmDialog>
 <div class="max-w-7xl mx-auto px-4 py-6">
     <!-- Header -->
     <div class="mb-6">
@@ -34,5 +35,75 @@
     </div>
 
     <!-- Table -->
-    <app-boarding-table [bookings]="bookings" (boardingStatusChange)="onBoardingStatusChange($event)" />
+    <div class="bg-white rounded shadow-sm border border-slate-200 overflow-x-auto">
+        <!-- Empty State -->
+        <div *ngIf="boardingRows.length === 0" class="text-center py-12">
+            <p class="text-slate-600">No bookings found for selected date</p>
+        </div>
+
+        <!-- Table -->
+        <p-table *ngIf="boardingRows.length > 0" [value]="boardingRows" [paginator]="true" [rows]="10"
+            [rowsPerPageOptions]="[10, 25, 50]" paginatorDropdownAppendTo="body" styleClass="p-datatable-sm">
+            <!-- Table Header -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 4rem" class="text-center font-semibold text-slate-600">Seq</th>
+                    <th class="font-semibold text-slate-600 uppercase text-xs tracking-wider">Booking ID</th>
+                    <th class="font-semibold text-slate-600">Seats</th>
+                    <th class="font-semibold text-slate-600">Mobile</th>
+                    <th style="width: 100px" class="text-center font-semibold text-slate-600">Action</th>
+                </tr>
+            </ng-template>
+
+            <!-- Table Body -->
+            <ng-template pTemplate="body" let-row>
+                <tr [class.row-boarded]="row.boarded" class="border-b border-slate-100 transition-colors duration-200">
+                    <!-- Sequence -->
+                    <td class="text-center font-semibold text-slate-600">
+                        {{ row.sequence }}
+                    </td>
+
+                    <!-- Booking ID -->
+                    <td class="font-mono text-slate-600 text-sm">
+                        <span class="md:hidden">..{{ row.id | slice:-4 }}</span>
+                        <span class="hidden md:inline">{{ row.id }}</span>
+                    </td>
+
+                    <!-- Seats -->
+                    <td class="font-bold text-slate-800 text-sm">
+                        {{ formatSeats(row.seats) }}
+                    </td>
+
+                    <!-- Mobile -->
+                    <td>
+                        <a [href]="'tel:' + row.mobileNumber"
+                            class="flex items-center gap-2 text-slate-600 hover:text-red-600 text-sm font-medium whitespace-nowrap">
+                            <i class="pi pi-phone text-xs text-red-500"></i>
+                            {{ row.mobileNumber }}
+                        </a>
+                    </td>
+
+                    <!-- Action Button -->
+                    <td class="relative z-10 text-center p-1">
+                        <div class="boarding-action-btn w-full bg-transparent pointer-events-auto">
+                            <!-- Board Button (Red) -->
+                            <button *ngIf="!row.boarded" type="button"
+                                class="p-button p-component p-button-danger p-button-sm w-full font-semibold text-xs justify-center boarding-btn-native h-8 px-2"
+                                (click)="onToggleBoarding(row); $event.stopPropagation()">
+                                <span>Board</span>
+                            </button>
+
+                            <!-- Boarded Button (Green Outlined) -->
+                            <button *ngIf="row.boarded" type="button"
+                                class="p-button p-component p-button-success p-button-outlined p-button-sm w-full font-semibold text-xs justify-center boarding-btn-native h-8 px-2"
+                                (click)="onToggleBoarding(row); $event.stopPropagation()">
+                                <i class="pi pi-check text-xs mr-1"></i>
+                                <span>Boarded</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </div>
