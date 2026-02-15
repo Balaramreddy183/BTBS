@@ -1,30 +1,56 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookingFormComponent } from '../booking-form/booking-form.component';
-import { SeatGridComponent } from '../seat-grid/seat-grid.component';
-import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
-import { LucideAngularModule, MapPin, Clock, Info } from 'lucide-angular';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
+import { DatePicker } from 'primeng/datepicker';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { LucideAngularModule, MapPin, Clock, Info, Calendar, Phone, CheckCircle, ArrowUp } from 'lucide-angular';
 import { Booking, JourneyDetails } from '../../models';
 import { BookingFacadeService } from '../../core/services/booking-facade.service';
 
 @Component({
   selector: 'app-booking-page',
-  imports: [CommonModule, BookingFormComponent, SeatGridComponent, ConfirmationModalComponent, LucideAngularModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DatePicker,
+    InputTextModule,
+    ButtonModule,
+    DialogModule,
+    LucideAngularModule
+  ],
   templateUrl: './booking-page.component.html',
   styleUrl: './booking-page.component.css'
 })
 export class BookingPageComponent implements OnInit {
+  bookingForm!: FormGroup;
   selectedSeats: string[] = [];
   bookedSeats: string[] = [];
+
+  // Grid Config
+  readonly rows = Array.from({ length: 15 }, (_, i) => i + 1);
+  readonly maxSeats = 6;
+  readonly baseSeatPrice = 500;
+  readonly windowSeatSurcharge = 50;
+
+  // Confirmation Modal
   showConfirmation = false;
   confirmedBooking: Booking | null = null;
   loading = false;
 
+  // Icons
   readonly MapPin = MapPin;
   readonly Clock = Clock;
   readonly Info = Info;
+  readonly Calendar = Calendar;
+  readonly Phone = Phone;
+  readonly CheckCircle = CheckCircle;
+  readonly ArrowUp = ArrowUp;
 
-  // Mock Journey details
+  // Journey Mock
   journey: JourneyDetails = {
     from: 'Hyderabad',
     to: 'Bangalore',
@@ -35,12 +61,30 @@ export class BookingPageComponent implements OnInit {
     busNumber: 'TS 09 AB 1234'
   };
 
-  constructor(private bookingFacade: BookingFacadeService) { }
+  today: Date = new Date();
+
+  constructor(
+    private fb: FormBuilder,
+    private bookingFacade: BookingFacadeService
+  ) { }
 
   ngOnInit(): void {
-    // Initial load will be empty until date is selected or default to today if needed
-    // But for now keeping it empty to rely on user selection or explicit today
+    this.initForm();
     this.loadBookedSeats(new Date());
+  }
+
+  initForm(): void {
+    this.bookingForm = this.fb.group({
+      travelDate: [new Date(), Validators.required],
+      mobileNumber: ['', [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]]
+    });
+
+    this.bookingForm.get('travelDate')?.valueChanges.subscribe(date => {
+      if (date) {
+        this.selectedSeats = [];
+        this.loadBookedSeats(date);
+      }
+    });
   }
 
   loadBookedSeats(date: Date): void {
@@ -52,26 +96,95 @@ export class BookingPageComponent implements OnInit {
     });
   }
 
-  onSeatSelectionChange(seats: string[]): void {
-    this.selectedSeats = seats;
+  // Seat Logic
+  isSeatBooked(seatId: string): boolean {
+    return this.bookedSeats.includes(seatId);
   }
 
-  onDateSelect(date: Date): void {
-    this.selectedSeats = []; // Clear selection when date changes
-    this.loadBookedSeats(date);
+  isSeatSelected(seatId: string): boolean {
+    return this.selectedSeats.includes(seatId);
   }
 
-  onFormSubmit(formData: { travelDate: Date; mobileNumber: string }): void {
+  getSeatType(seatId: string): 'window' | 'aisle' | 'middle' {
+    const column = seatId.charAt(0);
+    return (column === 'A' || column === 'D') ? 'window' : 'middle';
+  }
+
+  getSeatPrice(seatId: string): number {
+    return this.getSeatType(seatId) === 'window'
+      ? this.baseSeatPrice + this.windowSeatSurcharge
+      : this.baseSeatPrice;
+  }
+
+  onSeatClick(seatId: string): void {
+    if (this.isSeatBooked(seatId)) return;
+
+    const index = this.selectedSeats.indexOf(seatId);
+    if (index > -1) {
+      this.selectedSeats.splice(index, 1);
+    } else {
+      if (this.selectedSeats.length < this.maxSeats) {
+        this.selectedSeats.push(seatId);
+      }
+    }
+  }
+
+  getSeatClasses(seatId: string): string {
+    const isBooked = this.isSeatBooked(seatId);
+    const isSelected = this.isSeatSelected(seatId);
+    const type = this.getSeatType(seatId);
+
+    const base = 'relative w-12 h-14 rounded border transition-all duration-150 flex flex-col items-center justify-center';
+
+    if (isBooked) return `${base} bg-slate-300 text-slate-500 cursor-not-allowed border-slate-400`;
+    if (isSelected) return `${base} bg-red-600 text-white border-red-700 font-semibold`;
+    if (type === 'window') return `${base} bg-white text-slate-700 border-red-400 hover:border-red-500 hover:bg-red-50 cursor-pointer`;
+
+    return `${base} bg-white text-slate-700 border-slate-300 hover:border-slate-400 hover:bg-slate-50 cursor-pointer`;
+  }
+
+  getSeatTooltip(seatId: string): string {
+    if (this.isSeatBooked(seatId)) return `Seat ${seatId} - Booked`;
+    const price = this.getSeatPrice(seatId);
+    return `Seat ${seatId} - ₹${price}`;
+  }
+
+  // Computed Properties
+  get totalPrice(): number {
+    return this.selectedSeats.reduce((total, seatId) => total + this.getSeatPrice(seatId), 0);
+  }
+
+  get windowSeatsCount(): number {
+    return this.selectedSeats.filter(id => this.getSeatType(id) === 'window').length;
+  }
+
+  get seatCountClass(): string {
+    const count = this.selectedSeats.length;
+    if (count === 0) return 'text-slate-400';
+    if (count >= 5) return 'text-amber-600 font-bold';
+    return 'text-emerald-600 font-semibold';
+  }
+
+  get isFormValid(): boolean {
+    return this.bookingForm.valid && this.selectedSeats.length > 0;
+  }
+
+  // Submit Logic
+  onSubmit(): void {
+    if (!this.isFormValid) return;
+
     this.loading = true;
+    const formVal = this.bookingForm.value;
     const bookingId = `BTBS-${Date.now()}`;
 
     const newBooking: Booking = {
       id: bookingId,
-      ...formData,
+      travelDate: formVal.travelDate,
+      mobileNumber: formVal.mobileNumber,
       seats: [...this.selectedSeats],
       boarded: false,
       createdAt: new Date(),
-      totalAmount: this.calculateTotalPrice()
+      totalAmount: this.totalPrice
     };
 
     this.bookingFacade.createBooking(newBooking).subscribe({
@@ -79,31 +192,20 @@ export class BookingPageComponent implements OnInit {
         this.loading = false;
         this.confirmedBooking = booking;
         this.showConfirmation = true;
-        this.confirmedBooking = booking;
-        this.showConfirmation = true;
-        this.loadBookedSeats(formData.travelDate);
+        this.loadBookedSeats(formVal.travelDate);
         this.selectedSeats = [];
+        this.bookingForm.get('mobileNumber')?.reset();
       },
       error: () => {
         this.loading = false;
-        alert('Booking failed. Please try again.');
       }
     });
   }
 
   onBookAnother(): void {
-    this.selectedSeats = [];
     this.showConfirmation = false;
+    this.selectedSeats = [];
     this.confirmedBooking = null;
-  }
-
-  private calculateTotalPrice(): number {
-    const BASE_PRICE = 500;
-    const WINDOW_SURCHARGE = 50;
-
-    return this.selectedSeats.reduce((total, seat) => {
-      const isWindow = seat.startsWith('A') || seat.startsWith('D');
-      return total + BASE_PRICE + (isWindow ? WINDOW_SURCHARGE : 0);
-    }, 0);
+    this.bookingForm.get('mobileNumber')?.reset();
   }
 }

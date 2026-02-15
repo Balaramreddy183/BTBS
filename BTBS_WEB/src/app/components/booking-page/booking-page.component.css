@@ -1,0 +1,50 @@
+/* Merged Styles */
+
+/* From Booking Form */
+:host ::ng-deep .btbs-custom-btn {
+    background-color: #dc2626 !important;
+    /* Red-600 */
+    border-color: #dc2626 !important;
+}
+
+:host ::ng-deep .btbs-custom-btn:enabled:hover {
+    background-color: #b91c1c !important;
+    /* Red-700 */
+    border-color: #b91c1c !important;
+}
+
+/* From Confirmation Modal */
+:host ::ng-deep .btbs-custom-modal-btn {
+    width: 100%;
+}
+
+.ticket-container {
+    background-color: #ffffff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.ticket-label {
+    font-size: 0.75rem;
+    color: #64748b;
+    /* Slate-500 */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.ticket-value {
+    display: block;
+    font-weight: 600;
+    color: #1e293b;
+    /* Slate-800 */
+    font-size: 1rem;
+}
