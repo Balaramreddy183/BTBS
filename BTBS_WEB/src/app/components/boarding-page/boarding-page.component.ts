@@ -12,7 +12,6 @@ import { ConfirmationService } from 'primeng/api';
 
 interface BoardingRow extends Booking {
   sequence: number;
-  maxRow: number;
 }
 
 @Component({
@@ -25,7 +24,7 @@ interface BoardingRow extends Booking {
 })
 export class BoardingPageComponent implements OnInit {
   selectedDate: Date = new Date();
-  bookings: Booking[] = [];
+  boardingRows: BoardingRow[] = [];
   loading = false;
 
   readonly Users = Users;
@@ -48,11 +47,11 @@ export class BoardingPageComponent implements OnInit {
     this.loading = true;
     this.facade.getBoardingBookings(this.selectedDate).subscribe({
       next: (data) => {
-        this.bookings = data || [];
+        this.boardingRows = data as unknown as BoardingRow[];
         this.loading = false;
       },
       error: () => {
-        this.bookings = [];
+        this.boardingRows = [];
         this.loading = false;
       }
     });
@@ -61,24 +60,6 @@ export class BoardingPageComponent implements OnInit {
   onDateChange(date: Date): void {
     this.selectedDate = date;
     this.loadBookings();
-  }
-
-  get boardingRows(): BoardingRow[] {
-    // Calculate max row for each booking
-    const rows = this.bookings.map(booking => {
-      const maxRow = Math.max(...booking.seats.map(seat => parseInt(seat.substring(1)) || 0));
-      return { ...booking, maxRow, sequence: 0 };
-    });
-
-    // Sort by max row descending (back to front)
-    rows.sort((a, b) => b.maxRow - a.maxRow);
-
-    // Assign sequence numbers
-    rows.forEach((row, index) => {
-      row.sequence = index + 1;
-    });
-
-    return rows;
   }
 
   onToggleBoarding(booking: Booking): void {
@@ -124,30 +105,26 @@ export class BoardingPageComponent implements OnInit {
       next: (updated) => {
         if (!updated) return;
 
-        const index = this.bookings.findIndex(b => b.id === updated.id);
+        const index = this.boardingRows.findIndex(b => b.id === updated.id);
         if (index > -1) {
-          // Update the array reference to trigger change detection if needed, 
-          // or just update the item. Since we use a getter for boardingRows, 
-          // changing the item in 'bookings' is sufficient as getter recalculates on access 
-          // (though Angular change detection needs to know).
-          // Better to clone:
-          const newBookings = [...this.bookings];
-          newBookings[index] = updated;
-          this.bookings = newBookings;
+          const updatedRow = { ...this.boardingRows[index], ...updated };
+          const newRows = [...this.boardingRows];
+          newRows[index] = updatedRow;
+          this.boardingRows = newRows;
         }
       }
     });
   }
 
   get totalCount(): number {
-    return this.bookings.length;
+    return this.boardingRows.length;
   }
 
   get boardedCount(): number {
-    return this.bookings.filter(b => b.boarded).length;
+    return this.boardingRows.filter(b => b.boarded).length;
   }
 
   get pendingCount(): number {
-    return this.bookings.filter(b => !b.boarded).length;
+    return this.boardingRows.filter(b => !b.boarded).length;
   }
 }

@@ -1,3 +1,6 @@
+// Pre-compile regex for performance
+const SEAT_REGEX = /[A-Z](\d+)/;
+
 /**
  * Utility function to sort bookings based on boarding priority.
  * Rule: Board from farthest (highest row number) to nearest (lowest row number).
@@ -17,7 +20,7 @@ function sortBookingsByBoardingPriority(bookings) {
         let maxRow = 0;
         seats.forEach(seat => {
             // Extract numeric part from seat (e.g., "A1" -> 1, "B10" -> 10)
-            const match = seat.match(/[A-Z](\d+)/);
+            const match = seat.match(SEAT_REGEX);
             if (match && match[1]) {
                 const row = parseInt(match[1], 10);
                 if (row > maxRow) {

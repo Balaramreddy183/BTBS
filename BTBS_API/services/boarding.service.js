@@ -1,14 +1,6 @@
-const mongoose = require('mongoose');
 const Booking = require('../models/booking.model');
-const MockDB = require('./mock-db.service');
 const sortBookingsByBoardingPriority = require('../utils/boardingAlgorithm');
 
-// Helper to check if MongoDB is connected
-const isConnected = () => mongoose.connection.readyState === 1;
-
-/**
- * Service to handle boarding logic
- */
 const boardingService = {
     /**
      * Get bookings sorted by optimal boarding sequence
@@ -16,22 +8,16 @@ const boardingService = {
      * @returns {Promise<Array>} - Sorted bookings with sequence numbers
      */
     async getBoardingSequence(date) {
-        let bookings = [];
+        // 1. Fetch bookings from MongoDB
+        const startDate = new Date(date);
+        startDate.setHours(0, 0, 0, 0);
 
-        // 1. Fetch bookings (Hybrid Strategy: Mongo or Mock)
-        if (isConnected()) {
-            const startDate = new Date(date);
-            startDate.setHours(0, 0, 0, 0);
+        const endDate = new Date(date);
+        endDate.setHours(23, 59, 59, 999);
 
-            const endDate = new Date(date);
-            endDate.setHours(23, 59, 59, 999);
-
-            bookings = await Booking.find({
-                travelDate: { $gte: startDate, $lte: endDate }
-            }).lean(); // lean() for plain JS objects
-        } else {
-            bookings = await MockDB.getBoardingBookings(date);
-        }
+        const bookings = await Booking.find({
+            travelDate: { $gte: startDate, $lte: endDate }
+        }).lean();
 
         if (!bookings || bookings.length === 0) {
             return [];
@@ -41,11 +27,11 @@ const boardingService = {
         const sortedBookings = sortBookingsByBoardingPriority(bookings);
 
         // 3. Format Result with Sequence
+        // Return original booking properties + sequence
         return sortedBookings.map((booking, index) => ({
-            sequence: index + 1,
-            bookingId: booking.id,
-            seats: booking.seats,
-            mobile: booking.mobileNumber
+            ...booking, // Spread all booking fields (id, seats, boarded, mobileNumber etc)
+            id: booking.id, // Explicitly ensure ID is present (sometimes _id vs id in Mongo)
+            sequence: index + 1
         }));
     }
 };

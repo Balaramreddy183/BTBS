@@ -7,8 +7,11 @@ import { Booking } from '../../models';
 @Injectable({
   providedIn: 'root'
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class BoardingService {
-  private apiUrl = `${environment.apiUrl}/bookings`; // Using bookings endpoint for now
+  private apiUrl = `${environment.apiUrl}/boarding`;
 
   constructor(private http: HttpClient) { }
 
@@ -17,12 +20,12 @@ export class BoardingService {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     const dateStr = `${year}-${month}-${day}`;
-    const params = new HttpParams().set('date', dateStr);
+    const params = new HttpParams().set('travelDate', dateStr);
 
-    return this.http.get<Booking[]>(`${this.apiUrl}/getBoardingBookings`, { params });
+    return this.http.get<Booking[]>(`${this.apiUrl}/getBoardingSequence`, { params });
   }
 
   updateBoardingStatus(id: string, boarded: boolean): Observable<Booking> {
-    return this.http.patch<Booking>(`${this.apiUrl}/updateBoardingStatus/${id}`, { boarded });
+    return this.http.patch<Booking>(`${environment.apiUrl}/bookings/updateBoardingStatus/${id}`, { boarded });
   }
 }

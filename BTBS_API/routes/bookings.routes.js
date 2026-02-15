@@ -3,8 +3,8 @@ const router = express.Router();
 const bookingsController = require('../controllers/bookings.controller');
 
 // Descriptive route names
+// Descriptive route names
 router.get('/getAllBookings', bookingsController.getAllBookings);
-router.get('/getBoardingBookings', bookingsController.getBoardingBookings);
 router.get('/getBookingById/:id', bookingsController.getBookingById);
 router.post('/createBooking', bookingsController.createBooking);
 router.put('/updateBooking/:id', bookingsController.updateBooking);

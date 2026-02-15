@@ -27,9 +27,6 @@ async function startServer() {
 
     app.listen(PORT, () => {
         console.log(`✓ Server running on http://localhost:${PORT}`);
-        console.log(`✓ API endpoints:`);
-        console.log(`  - http://localhost:${PORT}/api/bookings`);
-        console.log(`  - http://localhost:${PORT}/api/boarding`);
     });
 }
 
