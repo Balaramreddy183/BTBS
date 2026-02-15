@@ -72,5 +72,3 @@ A full-stack web application for booking bus tickets and managing boarding seque
     ng serve
     ```
 4.  Open browser at: `http://localhost:4200`
-
-Github Link: https://github.com/Balaramreddy183/BTBS
